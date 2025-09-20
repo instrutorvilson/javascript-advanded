@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospedes</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="container mt-5">
+        <h2>Novo hospede</h2>
+        <div class="row">
+            <div class="col-md-6">
+                <label for="nome" class="label-control">Informe nome</label>
+                <input type="text" id="nome" placeholder="EX: ana" class="form-control" />
+            </div>
+            <div class="col-md-6">
+                <label for="email" class="label-control">Informe email</label>
+                <input type="text" id="email" placeholder="EX: ana@gmail.com" class="form-control" />
+            </div>
+            <div class="col-md-3">
+                <label for="cep" class="label-control">Informe CEP</label>
+                <input type="text" id="cep" placeholder="EX: 00000-000" class="form-control" />
+            </div>
+            <div class="col-md-7">
+                <label for="rua" class="label-control">Informe Rua</label>
+                <input type="text" id="rua" placeholder="EX: Rua XV" class="form-control" />
+            </div>
+            <div class="col-md-2">
+                <label for="numero" class="label-control">Informe Numero</label>
+                <input type="text" id="numero" placeholder="EX: 150" class="form-control" />
+            </div>
+            <div class="col-md-4">
+                <label for="bairro" class="label-control">Informe Bairro</label>
+                <input type="text" id="bairro" placeholder="EX: Centro" class="form-control" />
+            </div>
+            <div class="col-md-6">
+                <label for="cidade" class="label-control">Informe Cidade</label>
+                <input type="text" id="cidade" placeholder="EX: Blumenau" class="form-control" />
+            </div>           
+            <div class="col-md-2">
+                <label for="uf" class="label-control">Informe Estado</label>
+                <input type="text" id="uf" placeholder="EX: SC" class="form-control" />
+            </div>
+        </div>
+
+        <div class="col-md-6 mt-3">
+            <button class="btn btn-outline-primary" id="btnSalvar">Gravar</button>
+            <Button class="btn btn-outline-secondary">Cancelar</Button>
+        </div>
+
+        <div>
+            <table class="table table-stripped">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Email</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!--preencher via script-->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script src="./scripts/hospedes.js"></script>
+</body>
+
+</html>
