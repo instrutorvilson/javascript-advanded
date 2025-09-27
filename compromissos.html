@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <input type="hidden" id="id" value="8828" />
+    <button onclick="gravar()">Gravar</button>
+
+    <button id="bt-finalizar">Finalizar</button>
+    <button id="bt-cancelar">Cancelar</button>
+    <script>
+        function gravar() {
+            const compromisso = {
+                contato: 'joao',
+                data: '20-10-2025',
+                hora: '15:00',
+                local: 'Parque Ramiro',
+                descricao: 'Jogar bola',
+                status: 'A'
+            }
+            fetch('http://localhost:3000/compromissos',
+                {
+                    method: 'POST',
+                    body: JSON.stringify(compromisso),
+                    headers: { 'content-type': 'application/JSON' }
+                }
+            )
+        }
+
+        document.getElementById('bt-finalizar').addEventListener('click', async () => {
+
+            var data = await fetch(`http://localhost:3000/compromissos/${document.getElementById('id').value}`)
+            var compromisso = await data.json()
+            compromisso.status = 'F'
+            fetch(`http://localhost:3000/compromissos/${document.getElementById('id').value}`,
+                {
+                    method: 'PUT', body: JSON.stringify(compromisso),
+                    headers: { 'content-type': 'application/JSON' }
+                })
+        })
+
+        document.getElementById('bt-cancelar').addEventListener('click', async () => {
+            var data = await fetch(`http://localhost:3000/compromissos/${document.getElementById('id').value}`)
+            var compromisso = await data.json()
+            compromisso.status = 'C'
+            fetch(`http://localhost:3000/compromissos/${document.getElementById('id').value}`,
+                {
+                    method: 'PUT', body: JSON.stringify(compromisso),
+                    headers: { 'content-type': 'application/JSON' }
+                })
+        })
+
+    </script>
+</body>
+
+</html>
