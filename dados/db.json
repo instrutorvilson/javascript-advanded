@@ -1,0 +1,23 @@
+{
+  "contatos": [
+    {
+      "id": "334e",
+      "nome": "ana",
+      "email": "ana@gmail.com",
+      "fone": "(47)9090-8023"
+    },
+    {
+      "id": "5054",
+      "nome": "Gabriel",
+      "email": "gabriel@gmail.com",
+      "fone": "(47)9090-7070"
+    },
+    {
+      "id": "0878",
+      "nome": "ded",
+      "email": "dd",
+      "fone": "dd"
+    }
+  ],
+  "compromissos": []
+}
