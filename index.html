@@ -10,6 +10,7 @@
 <body>   
     <div class="container">
         <h1 class="text-center">Agenda</h1>
+        <input type="hidden" id="id" />
         <label for="id">Informe nome</label>
         <input type="text" id="nome" placeholder="EX: ana" class="form-control" />
 
@@ -19,7 +20,11 @@
         <label for="id">Informe telefone</label>
         <input type="tel" id="fone" placeholder="EX: (47)9090-0909" class="form-control" />
 
-        <button class="mt-3 btn btn-primary" onclick="salvar()">Salvar</button>
+        <div>
+            <button class="mt-3 btn btn-primary" onclick="salvar()">Salvar</button>
+            <button class="mt-3 btn btn-secondary" >Alterar</button>
+        </div>
+        
         <div id="message">
 
         </div>
@@ -31,6 +36,8 @@
                     <th>Nome</th>
                     <th>Email</th>
                     <th>Fone</th>
+                    <th>Editar</th>
+                    <th>Excluir</th>
                 </tr>
             </thead>
             <tbody>
@@ -42,17 +49,68 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', ()=> {
+            document.getElementsByClassName('btn-secondary')[0].style='display:none'
+            document.getElementsByClassName('btn-primary')[0].style='display:block'
+
             var linhas = ''
              const baseUrl = 'http://localhost:3000/contatos'
              fetch(baseUrl)
              .then(data => data.json())
              .then(resp => {
                 for(let i = 0; i < resp.length; i++){
-                   linhas += `<tr><td>${resp[i].nome}</td><td>${resp[i].email}</td><td>${resp[i].fone}</td></tr>`
+                   linhas += `<tr>
+                   <td>${resp[i].nome}</td>
+                   <td>${resp[i].email}</td>
+                   <td>${resp[i].fone}</td>
+                   <td><button onclick=deletar('${resp[i].id}')>Deletar</button></td>
+                   <td><button onclick=editar('${resp[i].id}')>Editar</button></td>
+                   </tr>`
                 }
                 document.getElementsByTagName('tbody')[0].innerHTML = linhas
              })           
             
+        })
+
+        function editar(id){
+            document.getElementsByClassName('btn-secondary')[0].style='display:block'
+            document.getElementsByClassName('btn-primary')[0].style='display:none'
+
+            const baseUrl = `http://localhost:3000/contatos/${id}`
+            fetch(baseUrl)
+            .then(data => data.json())
+            .then(resp => {
+                document.getElementById('id').value = resp.id
+                document.getElementById('nome').value = resp.nome
+                document.getElementById('email').value = resp.email
+                document.getElementById('fone').value = resp.fone
+            })          
+       }
+
+        document.getElementsByClassName('btn-secondary')[0].addEventListener('click', () => {
+            const id = document.getElementById('id').value
+            const baseUrl = `http://localhost:3000/contatos/${id}`
+
+            const inputNome = document.getElementById('nome')
+
+            if(inputNome.value == ''){
+                document.getElementById('message').innerHTML = 'O nome deve ser informado'
+                inputNome.focus()
+                return
+            }
+            const inputEmail = document.getElementById('email')
+            const inputFone = document.getElementById('fone')
+
+            const contato = {
+                id,
+                nome: inputNome.value,
+                email: inputEmail.value,
+                fone: inputFone.value
+            }
+            fetch(baseUrl,{
+                method:'PUT',
+                body: JSON.stringify(contato),
+                headers:{ 'content-type':'application/JSON'}
+            })
         })
 
         function salvar(){
@@ -82,6 +140,13 @@
                 headers:{ 'content-type':'application/JSON'}
             })
             
+        }
+
+        function deletar(id){
+            const baseUrl = `http://localhost:3000/contatos/${id}`
+            fetch(baseUrl,{ 
+                method: 'DELETE'
+            })
         }
     </script>
 </body>
