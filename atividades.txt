@@ -1,0 +1,9 @@
+Criar a api compromissos
+-> cadastrar, mudar status
+
+cadastrar:
+-> contato, data, hora, local, descrição, status=A
+
+Confirmar
+-> idcompromisso
+-> novo status (Cancelado=C, Finalizado=F)
