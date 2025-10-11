@@ -1,21 +1,51 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8">
   <title>Cliente GraphQL</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 </head>
+
 <body>
   <h1>Consumindo API GraphQL</h1>
   <button id="btnListar">Listar Usuários</button>
-  <button id="btnCriar">Criar Usuário</button>
+
   <pre id="saida"></pre>
+  
+  <div class="container">
+    <h2 class="text-center">Novo usuário</h2>
+    <div class="m-3">
+      <form>
+        <label for="nome">Informe nome</label>
+        <input class="form-control" type="text" id="nome" placeholder="EX: ana" required />
+
+        <label for="email">Informe email</label>
+        <input class="form-control" type="email" id="email" placeholder="EX: ana" required />
+
+        <button class="btn btn-primary mt-3" id="btnCriar">Salvar</button>
+      </form>
+    </div>
+    <hr />
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Email</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!--Via javascript-->
+      </tbody>
+    </table>
+  </div>
   <script>
     const API_URL = 'http://localhost:4000/graphql';
 
     async function listarUsuarios() {
       const query = `{
         users {
-          id
           name
           email
         }
@@ -26,18 +56,29 @@
         body: JSON.stringify({ query })
       });
       const data = await resp.json();
-      document.getElementById('saida').textContent = JSON.stringify(data.data.users, null, 2);
+      const users = data.data.users
+
+      //document.getElementById('saida').textContent = JSON.stringify(data.data.users, null, 2);
+      var linhas = ''
+      for (let i = 0; i < users.length; i++) {
+        linhas += `<tr><td>${users[i].name}</td><td>${users[i].email}</td></tr>`
+      }
+      document.getElementsByTagName('tbody')[0].innerHTML = linhas
     }
 
     async function criarUsuario() {
       const mutation = `
         mutation {
-          createUser(name: "Novo Usuário", email: "novo@teste.com") {
+          createUser(name: ${document.getElementById('nome').value},
+           email: ${document.getElementById('email').value}) {
             id
             name
           }
         }
       `;
+
+      console.log(mutation)
+
       const resp = await fetch(API_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -51,4 +92,5 @@
     document.getElementById('btnCriar').addEventListener('click', criarUsuario);
   </script>
 </body>
+
 </html>
