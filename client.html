@@ -8,12 +8,10 @@
     integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 </head>
 
-<body>
-  <h1>Consumindo API GraphQL</h1>
-  <button id="btnListar">Listar Usuários</button>
+<body onload="listarUsuarios()">
+  <h1 class="text-center">Consumindo API GraphQL</h1>
 
-  <pre id="saida"></pre>
-  
+ 
   <div class="container">
     <h2 class="text-center">Novo usuário</h2>
     <div class="m-3">
@@ -57,8 +55,7 @@
       });
       const data = await resp.json();
       const users = data.data.users
-
-      //document.getElementById('saida').textContent = JSON.stringify(data.data.users, null, 2);
+     
       var linhas = ''
       for (let i = 0; i < users.length; i++) {
         linhas += `<tr><td>${users[i].name}</td><td>${users[i].email}</td></tr>`
@@ -69,26 +66,21 @@
     async function criarUsuario() {
       const mutation = `
         mutation {
-          createUser(name: ${document.getElementById('nome').value},
-           email: ${document.getElementById('email').value}) {
+          createUser(name: "${document.getElementById('nome').value}", 
+          email: "${document.getElementById('email').value}") {
             id
             name
           }
         }
       `;
-
-      console.log(mutation)
-
       const resp = await fetch(API_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ query: mutation })
       });
-      const data = await resp.json();
-      document.getElementById('saida').textContent = JSON.stringify(data.data.createUser, null, 2);
+      listarUsuarios()
     }
 
-    document.getElementById('btnListar').addEventListener('click', listarUsuarios);
     document.getElementById('btnCriar').addEventListener('click', criarUsuario);
   </script>
 </body>
