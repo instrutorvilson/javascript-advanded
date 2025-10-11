@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Cliente GraphQL</title>
+</head>
+<body>
+  <h1>Consumindo API GraphQL</h1>
+  <button id="btnListar">Listar Usuários</button>
+  <button id="btnCriar">Criar Usuário</button>
+  <pre id="saida"></pre>
+  <script>
+    const API_URL = 'http://localhost:4000/graphql';
+
+    async function listarUsuarios() {
+      const query = `{
+        users {
+          id
+          name
+          email
+        }
+      }`;
+      const resp = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ query })
+      });
+      const data = await resp.json();
+      document.getElementById('saida').textContent = JSON.stringify(data.data.users, null, 2);
+    }
+
+    async function criarUsuario() {
+      const mutation = `
+        mutation {
+          createUser(name: "Novo Usuário", email: "novo@teste.com") {
+            id
+            name
+          }
+        }
+      `;
+      const resp = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ query: mutation })
+      });
+      const data = await resp.json();
+      document.getElementById('saida').textContent = JSON.stringify(data.data.createUser, null, 2);
+    }
+
+    document.getElementById('btnListar').addEventListener('click', listarUsuarios);
+    document.getElementById('btnCriar').addEventListener('click', criarUsuario);
+  </script>
+</body>
+</html>
